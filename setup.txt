@@ -1,0 +1,101 @@
+    1  sudo yum update
+    2  sbt
+    3  brew
+    4  scala
+    5  java
+    6  java -version
+    7  pwd
+    8  vi install_sbt_scala.sh
+    9  chmod 700
+   10  chmod 700 install_sbt_scala.sh 
+   11  ./install_sbt_scala.sh 
+   12  sbt
+   13  vi install_sbt_scala.sh
+   14  ./install_sbt_scala.sh 
+   15  scala -version
+   16  sbt
+   17  vi .bashrc 
+   18  source .bashrc 
+   19  sbt
+   20  sudo add-apt-repository ppa:openjdk-r/ppa
+   21  sudo apt-get update
+   22  sudo alternatives --config java
+   23  cd /opt/
+   24  sudo wget --no-cookies --no-check-certificate --header "Cookie: %3A%2F%2Fwww.oracle.com%2F; -securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.tar.gz
+   25  sudo tar xzf jdk-8u151-linux-x64.tar.gz
+   26  ls
+   27  unzip jdk-8u151-linux-x64.tar.gz 
+   28  ls
+   29  cd jdk-8u151-linux-x64.tar.gz 
+   30  ls -lah
+   31  rm jdk-8u151-linux-x64.tar.gz 
+   32  chmod 700 jdk-8u151-linux-x64.tar.gz 
+   33  sudo chmod 700 jdk-8u151-linux-x64.tar.gz 
+   34  sudo rm jdk-8u151-linux-x64.tar.gz 
+   35  sudo wget --no-cookies --no-check-certificate http://download.oracle.com/otn-pub/java/jdk/8u161-b12/2f38c3b165be4555a1fa6e98c45e0808/jdk-8u161-linux-i586.tar.gz
+   36  less jdk-8u161-linux-i586.tar.gz 
+   37  sudo yum install java-1.8.0
+   38  sudo alternatives --config java
+   39  java -version
+   40  sbt
+   41  cd ..
+   42  ls
+   43  cd back/
+   44  sbt run
+   45  curl localhost:9000
+   46  ls
+   47  curl help
+   48  curl --help
+   49  curl http://localhost:9000
+   50  vi back/conf/application.conf 
+   51  curl http://f.com:80
+   52  curl http://f.com
+   53  curl http://localhost.com
+   54  curl http://localhost:9000
+   55  curl http://localhost.com:9000
+   56  vi back/conf/application.conf 
+   57  curl http://localhost:9000
+   58  curl http://localhost:9000/ff
+   59  curl http://172.31.50.145:9000
+   60  curl http://localhost:9000
+   61  curl http://localhost:9000/count
+   62  curl http://172.31.50.145:9000/count
+   63  vi back/conf/application.conf 
+   64  curl http://172.31.50.145:9000/count
+   65  vi back/conf/application.conf 
+   66  curl http://172.31.50.145:9000/count
+   67  vi back/conf/application.conf 
+   68  curl http://172.31.50.145:9000/count
+   69  curl ec2-34-207-122-220.compute-1.amazonaws.com
+   70  curl ec2-34-207-122-220.compute-1.amazonaws.com:9000
+   71  ifconfig
+   72  curl ec2-34-207-122-220.compute-1.amazonaws.com
+   73  quit
+   74  cd back/
+   75  sbt run
+   76  java
+   77  javac
+   78  which java
+   79  sudo alternatives --config java
+   80  sudo yum install -y jdk-8u141-linux-x64.rpm
+   81  cd ..
+   82  wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u141-b15/336fa29ff2bb4ef291e347e091f7f4a7/jdk-8u141-linux-x64.rpm
+   83  sudo yum install -y jdk-8u141-linux-x64.rpm
+   84  sudo alternatives --config java
+   85  java -version
+   86  javac
+   87  cd back/
+   88  javac
+   89  sbt run
+   90  sbt run --http.port 80
+   91  sbt "run 80"
+   92  sudo sbt "run 80"
+   93  curl localhost
+   94  curl ssh -i "primitive.pem" ec2-user@ec2-34-201-133-135.compute-1.amazonaws.com
+   95  curl ssh -i "primitive.pem" ec2-user@ec2-34-201-133-135.compute-1.amazonaws.com/count
+   96  curl  localhost
+   97  curl ssh -i "primitive.pem" ec2-user@ec2-34-201-133-135.compute-1.amazonaws.com
+   98  curl ec2-34-201-133-135.compute-1.amazonaws.com
+   99  curl ec2-34-201-133-135.compute-1.amazonaws.com/count
+  100  history
+  101  history > setup.txt
