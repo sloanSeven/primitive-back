@@ -20,6 +20,6 @@ class LifeController @Inject() (cc: ControllerComponents,
    * count. The result is plain text. This `Action` is mapped to
    * `GET /count` requests by an entry in the `routes` config file.
    */
-  def board = Action { Ok(d.nextMove().toString) }
+  def board = Action { Ok(views.html.life(d.nextMove().toString)) }
 
 }

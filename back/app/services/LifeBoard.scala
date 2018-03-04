@@ -100,7 +100,6 @@ class AtomicBoard extends LifeBoard {
   }
 
   override def nextMove(): String = {
-    update();
     val builder = StringBuilder.newBuilder
     
     for (i <- 0 to X-1; j <- 0 to Y-1) {
@@ -108,6 +107,8 @@ class AtomicBoard extends LifeBoard {
       if (j == 35)
         builder.append("\n");
     }
+      update();
+  
     return builder.toString()
   }
 }
