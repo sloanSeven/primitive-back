@@ -1,2 +1,6 @@
 /primitive.pem
 /temp
+/bin/
+/project/
+/target/
+/.cache-main
