@@ -1,5 +1,11 @@
 /primitive.pem
 /temp
+/bin/
+/project/
+/target/
+/.cache-main
+/primitive2.pem
+/.DS_Store
 /primitive2.pem
 .DS_Store
 /bin/
