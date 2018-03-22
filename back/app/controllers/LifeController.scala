@@ -22,4 +22,6 @@ class LifeController @Inject() (cc: ControllerComponents,
    */
   def board = Action { Ok(views.html.life(d.nextMove().toString)) }
 
+  def next = Action { Ok(d.nextMove().toString) }
+
 }
