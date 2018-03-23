@@ -10,6 +10,14 @@ GET     /count                      controllers.CountController.count
 GET     /board                      controllers.LifeController.board
 GET     /next                      controllers.LifeController.next
 
+GET     /chat                      			controllers.ChatController.chat
+GET     /chat/list 							controllers.ChatController.list         
+GET     /chat/:userA/list 					controllers.ChatController.listUser(userA : String)        
+GET     /chat/:userA/sendTo/:userB/:message controllers.ChatController.send(userA : String, userB : String, message : String)         
+GET     /chat/:userA/log/:userB 			controllers.ChatController.log(userA : String, userB : String)         
+
+#   controllers.BinderApplication.user(user: scalaguide.binder.models.User)
+
 # An example controller showing how to write asynchronous code
 GET     /message                    controllers.AsyncController.message
 

@@ -2,14 +2,43 @@ package services
 
 import javax.inject._
 import util.control.Breaks._
+import scala.collection.mutable.HashMap
+import java.time.Instant
+import scala.collection.mutable.ListBuffer
+import scala.collection._
 
 /**
  * This trait demonstrates how to create a component that is injected
  * into a controller. The trait represents a counter that returns a
  * incremented number each time it is called.
  */
-trait LifeBoard {
-  def nextMove(): String
+trait Chat {
+  def send(a: String, b: String, message: String): Boolean
+  def getLog(a: String, b: String): ListBuffer[Message]
+  def getUserList(): Set[Person]
+  def getUserList(person: String): Set[Person]
+
+}
+
+class Person(n: String) {
+  val name = n;
+
+  override def toString(): String = {
+    return "[" + name + "]";
+  }
+
+}
+
+class Message(a: Person, b: Person, m: String) {
+
+  val from = a;
+  val to = b;
+  val message = m;
+  val unixTimestamp: Long = Instant.now.getEpochSecond
+
+  override def toString(): String = {
+    return unixTimestamp + ": " + from + " " + message;
+  }
 }
 
 /**
@@ -23,92 +52,59 @@ trait LifeBoard {
  * injected.
  */
 @Singleton
-class AtomicBoard extends LifeBoard {
+class AtomicChat extends Chat {
 
   private val X = 36;
   private val Y = 36;
 
-  private var board = Array.ofDim[String](X, Y)
-  val r = scala.util.Random
-  val dead = " ";
-  random();
+  val chatMap: HashMap[Person, HashMap[Person, mutable.ListBuffer[Message]]] = HashMap()
+  val personMap: HashMap[String, Person] = HashMap()
 
-  def random() {
-    for (i <- 0 to X - 1; j <- 0 to Y - 1) {
-      if (r.nextBoolean())
-        board(i)(j) = dead;
-      else
-        board(i)(j) = "-";
+  override def send(a: String, b: String, message: String): Boolean = {
+    val aPerson = getPerson(a);
+    val bPerson = getPerson(b);
+
+    val aChatMap = chatMap.getOrElse(aPerson, new HashMap());
+
+    var messageList = aChatMap.getOrElse(bPerson, new mutable.ListBuffer[Message]());
+    aChatMap.put(bPerson, messageList);
+
+    if (messageList.isEmpty) {
+      val bChatMap = chatMap.getOrElse(bPerson, new HashMap());
+      chatMap.put(bPerson, bChatMap)
+      bChatMap.put(aPerson, messageList);
     }
+    val m = new Message(aPerson, bPerson, message);
+    messageList += m;
+    return true
   }
 
-  def update() {
-    val newboard = Array.ofDim[String](X, Y)
-    for (i <- 0 to X - 1; j <- 0 to Y - 1) {
-      val v = update(i, j)
-      newboard(i)(j) = v;
-    }
-    var eq = true;
-    breakable {
-      for (i <- 0 to X - 1; j <- 0 to Y - 1) {
-        eq = board(i)(j) == newboard(i)(j)
-        if (!eq) {
-          break;
-        }
-      }
-    }
-    if (eq) {
-      random();
-    } else {
-      board = newboard;
-    }
+  override def getUserList(): Set[Person] = {
+    return chatMap.keySet;
   }
 
-  def update(x: Int, y: Int): String = {
-
-    val alive = board(x)(y) != dead
-    var count = 0;
-    for (i <- -1 to 1; j <- -1 to 1) {
-      breakable {
-        val xx = x + i;
-        val yy = y + j;
-        if (xx < 0 || yy < 0 || xx >= board.length || yy >= board(0).length) {
-          break;
-        }
-        val v = board(xx)(yy)
-        if (v != dead) {
-          count += 1;
-        }
-      }
-    }
-    var nv = "?"
-    if (alive) {
-      count -= 1; //self
-      if (count == 2 || count == 3) {
-        nv = "*"
-      } else {
-        nv = dead //"*" //count + "";
-      }
-    } else { //dead
-      if (count == 3) {
-        nv = "*";
-      } else {
-        nv = dead
-      }
-    }
-    return nv;
+  override def getUserList(person: String): Set[Person] = {
+    val p = getPerson(person);
+    val map = chatMap.get(p).get
+    return map.keySet;
   }
 
-  override def nextMove(): String = {
-    val builder = StringBuilder.newBuilder
-    
-    for (i <- 0 to X-1; j <- 0 to Y-1) {
-      builder.append(board(i)(j))
-      if (j == 35)
-        builder.append("\n");
+  def getPerson(person: String): Person = {
+    val p = personMap.getOrElse[Person](person, new Person(person));
+    if (!personMap.contains(person)) {
+      chatMap.put(p, new HashMap());
+      personMap.put(person, p)
     }
-      update();
-  
-    return builder.toString()
+    return p;
   }
+
+  override def getLog(a: String, b: String): ListBuffer[Message] = {
+    val aPerson = getPerson(a);
+    val bPerson = getPerson(b);
+
+    val aMap = chatMap.get(aPerson)
+    val messageList = aMap.get(bPerson);
+    return messageList
+  }
+
 }
