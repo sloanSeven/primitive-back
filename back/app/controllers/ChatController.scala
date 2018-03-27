@@ -31,7 +31,7 @@ class ChatController @Inject() (
   }
 
   def log(userA: String, userB: String) = Action {
-    Ok(d.getLog(userA, userB) + "")
+    Ok(d.getLog(userA, userB).mkString("\n"))
   }
 
   def list() = Action {
