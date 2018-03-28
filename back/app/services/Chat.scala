@@ -6,6 +6,7 @@ import scala.collection.mutable.HashMap
 import java.time.Instant
 import scala.collection.mutable.ListBuffer
 import scala.collection._
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * This trait demonstrates how to create a component that is injected
@@ -35,10 +36,17 @@ class Message(a: Person, b: Person, m: String) {
   val to = b;
   val message = m;
   val unixTimestamp: Long = Instant.now.getEpochSecond
+  val guid = Message.atomicGuid.getAndIncrement();
 
   override def toString(): String = {
     return unixTimestamp + ": " + from + " " + message;
   }
+}
+
+object Message {
+
+  val atomicGuid = new AtomicInteger();
+
 }
 
 /**
