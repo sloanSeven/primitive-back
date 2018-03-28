@@ -7,6 +7,7 @@ import java.time.Instant
 import scala.collection.mutable.ListBuffer
 import scala.collection._
 import java.util.concurrent.atomic.AtomicInteger
+import scala.collection.mutable.MutableList
 
 /**
  * This trait demonstrates how to create a component that is injected
@@ -49,16 +50,22 @@ object Message {
 
 }
 
-/**
- * This class is a concrete implementation of the [[Counter]] trait.
- * It is configured for Guice dependency injection in the [[Module]]
- * class.
- *
- * This class has a `Singleton` annotation because we need to make
- * sure we only use one counter per application. Without this
- * annotation we would get a new instance every time a [[Counter]] is
- * injected.
- */
+class Conversation() {
+
+  val unixTimestamp: Long = Instant.now.getEpochSecond
+  val guid = Conversation.atomicGuid.getAndIncrement();
+
+  override def toString(): String = {
+    return unixTimestamp + " [Conversation] " + guid;
+  }
+}
+
+object Conversation {
+
+  val atomicGuid = new AtomicInteger();
+
+}
+
 @Singleton
 class AtomicChat extends Chat {
 
@@ -72,14 +79,13 @@ class AtomicChat extends Chat {
     val aPerson = getPerson(a);
     val bPerson = getPerson(b);
 
-    val aChatMap = chatMap.getOrElse(aPerson, new HashMap());
+    val aChatMap = chatMap.get(aPerson).get;
 
-    var messageList = aChatMap.getOrElse(bPerson, new mutable.ListBuffer[Message]());
+    var messageList = aChatMap.getOrElse(bPerson, new ListBuffer[Message]()); //todo change to conversation
     aChatMap.put(bPerson, messageList);
 
     if (messageList.isEmpty) {
-      val bChatMap = chatMap.getOrElse(bPerson, new HashMap());
-      chatMap.put(bPerson, bChatMap)
+      val bChatMap = chatMap.get(bPerson).get;
       bChatMap.put(aPerson, messageList);
     }
     val m = new Message(aPerson, bPerson, message);
